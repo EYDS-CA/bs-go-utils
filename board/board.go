@@ -71,8 +71,8 @@ func (b Board) insert(p api.Point, e entity) {
 }
 
 func (b Board) getValidTiles(p api.Point) []api.Point {
-	validTiles := make([]Point, 0)
-	potential := []Point{
+	validTiles := make([]api.Point, 0)
+	potential := []api.Point{
 		api.Point{p.X - 1, p.Y},
 		api.Point{p.X + 1, p.Y},
 		api.Point{p.X, p.Y - 1},

@@ -37,16 +37,16 @@ func (bm BoardManager) addFood(foodPoints []api.Point) {
 
 func (bm BoardManager) avgSnakeLength() float64 {
 	avg := 0.0
-	for _, snake := range bm.Req.Snakes {
+	for _, snake := range bm.Req.Board.Snakes {
 		avg += float64(len(snake.Body))
 	}
-	return avg / float64(len(bm.Req.Snakes))
+	return avg / float64(len(bm.Req.Board.Snakes))
 }
 
 // Add our snake and the opposing snakes - with heuristic tiles
-func (bm BoardManager) addSnakes(snakePoint []api.Snake, you string) api.Point {
+func (bm BoardManager) addSnakes(snakePoints []api.Snake, you string) api.Point {
 	// Add each snake body segment
-	for _, snake := range snakePoint {
+	for _, snake := range snakePoints {
 		for _, snakeBody := range snake.Body {
 			bm.GameBoard.insert(snakeBody, obstacle())
 		}
@@ -54,7 +54,7 @@ func (bm BoardManager) addSnakes(snakePoint []api.Snake, you string) api.Point {
 
 	ourHead := api.Point{}
 
-	for _, snake := range snakePoint {
+	for _, snake := range snakePoints {
 		if snake.ID == you {
 			bm.GameBoard.insert(snake.Head(), snakeHead())
 			ourHead = snake.Head()
@@ -94,49 +94,6 @@ func (bm BoardManager) addSnakes(snakePoint []api.Snake, you string) api.Point {
 	}
 
 	return ourHead
-}
 
-type BestFoodResult struct {
-	Differential int
-	Food         Point
-}
-
-// Find the best food, the one we are closest
-// to compared to all other snakes
-func (bm BoardManager) findBestFood() BestFoodResult {
-	best := make(map[Point]Point)
-	differential := make(map[Point]int) // how much closer the person is than all other snakes
-	for _, food := range bm.Req.Food {
-		if distance(food, bm.OurHead) < bm.Req.You.Health {
-			for _, snake := range bm.Req.Snakes {
-				_, exists := best[food]
-				if exists == true {
-					if distance(best[food], food) > distance(snake.Head(), food) && (best[food] != food) {
-						differential[food] = distance(best[food], food) - distance(snake.Head(), food)
-						best[food] = snake.Head()
-					}
-				} else {
-					best[food] = snake.Head()
-					differential[food] = 15
-				}
-			}
-		}
-	}
-
-	bestFood := BestFoodResult{0, Point{-1, -1}}
-	for food := range best {
-		if best[food] == bm.OurHead {
-			if bestFood.Food.X == -1 {
-				bestFood.Food = food
-				bestFood.Differential = differential[food]
-			} else {
-				if distance(bestFood.Food, bm.OurHead) > distance(food, bm.OurHead) {
-					bestFood.Food = food
-					bestFood.Differential = differential[food]
-				}
-			}
-		}
-	}
-
-	return bestFood
+	return api.Point{0, 0}
 }

@@ -48,6 +48,8 @@ type Snake struct {
 	Body   []Point `json:"body"`
 }
 
+func (snake Snake) Head() Point { return snake.Body[0] }
+
 type SnakeList []Snake
 
 type Board struct {
