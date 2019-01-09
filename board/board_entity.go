@@ -8,50 +8,50 @@ const (
 	INVALID   = 5
 )
 
-type entity struct {
+type Entity struct {
 	Display    string
 	Dangerous  bool
 	EntityType int
 }
 
-func getEntity(t int) entity {
+func GetEntity(t int) Entity {
 	switch t {
 	case FOOD:
-		return food()
+		return Food()
 	case EMPTY:
-		return empty()
+		return Empty()
 	case SNAKEHEAD:
-		return snakeHead()
+		return SnakeHead()
 	case OBSTACLE:
-		return obstacle()
+		return Obstacle()
 	case INVALID:
-		return invalid()
+		return Invalid()
 	default:
-		return invalid()
+		return Invalid()
 	}
 }
 
-func empty() entity {
-	e := entity{" ", false, EMPTY}
+func Empty() Entity {
+	e := Entity{" ", false, EMPTY}
 	return e
 }
 
-func food() entity {
-	f := entity{"f", false, FOOD}
+func Food() Entity {
+	f := Entity{"f", false, FOOD}
 	return f
 }
 
-func snakeHead() entity {
-	h := entity{"h", true, SNAKEHEAD}
+func SnakeHead() Entity {
+	h := Entity{"h", true, SNAKEHEAD}
 	return h
 }
 
-func obstacle() entity {
-	o := entity{"o", true, OBSTACLE}
+func Obstacle() Entity {
+	o := Entity{"o", true, OBSTACLE}
 	return o
 }
 
-func invalid() entity {
-	o := entity{"X", true, INVALID}
+func Invalid() Entity {
+	o := Entity{"X", true, INVALID}
 	return o
 }

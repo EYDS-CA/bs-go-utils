@@ -10,19 +10,19 @@ import (
 type Board struct {
 	Width  int
 	Height int
-	Grid   [][]entity
+	Grid   [][]Entity
 }
 
 // Create a width x height board
-func createBoard(width int, height int) *Board {
+func CreateBoard(width int, height int) *Board {
 	b := new(Board)
 	b.Width = width
 	b.Height = height
-	grid := make([][]entity, height)
+	grid := make([][]Entity, height)
 	for i := 0; i < height; i++ {
-		grid[i] = make([]entity, width)
+		grid[i] = make([]Entity, width)
 		for j := 0; j < width; j++ {
-			grid[i][j] = empty()
+			grid[i][j] = Empty()
 		}
 	}
 
@@ -31,10 +31,10 @@ func createBoard(width int, height int) *Board {
 }
 
 func (b Board) copy() *Board {
-	copy := createBoard(b.Width, b.Height)
+	copy := CreateBoard(b.Width, b.Height)
 	for i := 0; i < copy.Height; i++ {
 		for j := 0; j < copy.Width; j++ {
-			copy.Grid[i][j] = getEntity(b.Grid[i][j].EntityType)
+			copy.Grid[i][j] = GetEntity(b.Grid[i][j].EntityType)
 		}
 	}
 
@@ -52,11 +52,11 @@ func (b Board) yInBounds(ypos int) bool {
 }
 
 // Return what is in the grid at point p
-func (b Board) getTile(p api.Point) entity {
+func (b Board) getTile(p api.Point) Entity {
 	if b.tileInBounds(p) {
 		return b.Grid[p.Y][p.X]
 	}
-	return invalid()
+	return Invalid()
 }
 
 // Return if a point p is in bounds
@@ -64,7 +64,7 @@ func (b Board) tileInBounds(p api.Point) bool {
 	return (b.xInBounds(p.X) && b.yInBounds(p.Y))
 }
 
-func (b Board) insert(p api.Point, e entity) {
+func (b Board) insert(p api.Point, e Entity) {
 	if b.xInBounds(p.X) && b.yInBounds(p.Y) {
 		b.Grid[p.Y][p.X] = e
 	}

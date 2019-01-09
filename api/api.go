@@ -50,6 +50,8 @@ type Snake struct {
 
 func (snake Snake) Head() Point { return snake.Body[0] }
 
+func (snake Snake) Tail() Point { return snake.Body[len(snake.Body)-1] }
+
 type SnakeList []Snake
 
 type Board struct {
