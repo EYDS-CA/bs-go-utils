@@ -20,7 +20,7 @@ type BoardManager struct {
 }
 
 // Fill the board in based on JSON from request
-func InitializeBoard(req *api.SnakeRequest) *BoardManager {
+func CreateBoardManager(req *api.SnakeRequest) *BoardManager {
 	bm := new(BoardManager)
 	bm.Req = req
 	bm.GameBoard = CreateBoard(req.Board.Width, req.Board.Height)
