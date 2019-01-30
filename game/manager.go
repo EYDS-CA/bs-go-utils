@@ -56,8 +56,3 @@ func (m Manager) AddSnakes(snakePoint []apiEntity.Snake, you string) {
 	}
 
 }
-
-// FindPath - Use A* to find Path from Coord to Coord
-func (m Manager) FindPath(from apiEntity.Coord, to apiEntity.Coord) *Path {
-	return new(Path)
-}

@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/FreshworksStudio/bs-go-utils/apiEntity"
 )
 
 /**
@@ -65,4 +67,9 @@ func Abs(num int) int {
 		return -num
 	}
 	return num
+}
+
+// Distance - manhatten distance
+func Distance(c1 apiEntity.Coord, c2 apiEntity.Coord) int {
+	return Abs(c1.X-c2.X) + Abs(c1.Y-c2.Y)
 }

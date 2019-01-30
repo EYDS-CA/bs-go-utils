@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/FreshworksStudio/bs-go-utils/api"
+	"github.com/FreshworksStudio/bs-go-utils/apiEntity"
 	"github.com/FreshworksStudio/bs-go-utils/game"
 	"github.com/FreshworksStudio/bs-go-utils/lib"
 )
@@ -52,10 +53,10 @@ func Move(res http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		log.Printf("Bad move request: %v", err)
 	}
-	lib.Dump(decoded)
+	// lib.Dump(decoded)
 
 	manager := game.InitializeBoard(&decoded)
-	print(manager)
+	manager.FindPath(apiEntity.Coord{4, 4}, apiEntity.Coord{1, 3})
 
 	lib.Respond(res, api.MoveResponse{Move: "down"})
 }
