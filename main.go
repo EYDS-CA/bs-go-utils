@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -56,8 +57,11 @@ func Move(res http.ResponseWriter, req *http.Request) {
 	// lib.Dump(decoded)
 
 	manager := game.InitializeBoard(&decoded)
-	manager.FindPath(apiEntity.Coord{4, 4}, apiEntity.Coord{1, 3})
-
+	path, err := manager.FindPath(apiEntity.Coord{4, 4}, apiEntity.Coord{1, 3})
+	if err != nil {
+		fmt.Printf("ERROR")
+	}
+	fmt.Printf("%v+", path)
 	lib.Respond(res, api.MoveResponse{Move: "down"})
 }
 
