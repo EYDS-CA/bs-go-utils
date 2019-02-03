@@ -54,15 +54,16 @@ func Move(res http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		log.Printf("Bad move request: %v", err)
 	}
-	// lib.Dump(decoded)
 
 	manager := game.InitializeBoard(&decoded)
 	path, err := manager.FindPath(apiEntity.Coord{4, 4}, apiEntity.Coord{1, 3})
 	if err != nil {
 		fmt.Printf("ERROR")
 	}
-	fmt.Printf("%v+", path)
-	lib.Respond(res, api.MoveResponse{Move: "down"})
+	for i := 0; i < len(path)-1; i++ {
+		fmt.Printf("%v\n", path[i])
+	}
+	lib.Respond(res, api.MoveResponse{Move: apiEntity.Down})
 }
 
 func End(res http.ResponseWriter, req *http.Request) {

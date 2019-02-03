@@ -3,14 +3,13 @@ package game
 import (
 	"container/heap"
 	"errors"
-	"fmt"
 
 	"github.com/FreshworksStudio/bs-go-utils/apiEntity"
 	"github.com/FreshworksStudio/bs-go-utils/lib"
 )
 
 // Path - a list of Coords
-type Path = []*apiEntity.Coord
+type Path = []apiEntity.Coord
 
 // CoordNode - Heap Node containing a Coord
 type CoordNode struct {
@@ -76,30 +75,8 @@ func ReversePath(path Path) Path {
 	return path
 }
 
-// ReconstructPath - given the map of Coords and where they came from, return a Path
-func ReconstructPath(current CoordNode, pathMap map[apiEntity.Coord]apiEntity.Coord) Path {
-	path := make(Path, 0)
-	path = append(path, &current.Coord)
-	fmt.Printf("%v+  %v+", pathMap[apiEntity.Coord{X: 1, Y: 3}], pathMap[apiEntity.Coord{X: 1, Y: 4}])
-
-	finished := false
-	for !finished {
-		// fmt.Printf("AT %v+\n", current.Coord)
-		current, exists := pathMap[current.Coord]
-		if !exists {
-			finished = true
-		} else {
-			// fmt.Printf("NOW at %v+\n", current)
-			path = append(path, &current)
-		}
-	}
-
-	return ReversePath(path)
-}
-
 // FindPath - Use A* to find Path from start Coord to end Coord
 func (m Manager) FindPath(start apiEntity.Coord, end apiEntity.Coord) (Path, error) {
-	fmt.Printf("STAR: %v+, FINISH: %v+\n", start, end)
 	// closedSet - Coordinates that have already been explored
 	closedSet := make(map[apiEntity.Coord]bool)
 
@@ -133,13 +110,6 @@ func (m Manager) FindPath(start apiEntity.Coord, end apiEntity.Coord) (Path, err
 
 		// Pull the current closest node off the heap
 		min := heap.Pop(&openSet).(*CoordNode)
-		fmt.Printf("AT COORDINATE %+v\n", min.Coord)
-
-		// If the current closest node is the goal, reconstruct the path
-		if min.Coord.X == end.X && min.Coord.Y == end.Y {
-			fmt.Printf("GOT TO THE GOAL\n")
-			return ReconstructPath(*min, cameFrom), nil
-		}
 
 		// Add the current coordinate to the already explored tiles
 		closedSet[min.Coord] = true
@@ -158,12 +128,26 @@ func (m Manager) FindPath(start apiEntity.Coord, end apiEntity.Coord) (Path, err
 				continue
 			}
 
+			// If the current closest node is the goal, reconstruct the path
+			if neighbor.X == end.X && neighbor.Y == end.Y {
+				current := min.Coord
+				path := Path{end, neighbor, current}
+				_, exists := cameFrom[current]
+
+				// Look back through where we came from - rebuild the list
+				for ; exists; _, exists = cameFrom[current] {
+					current = cameFrom[current]
+					path = append(path, current)
+				}
+
+				return ReversePath(path), nil
+			}
+
 			// The current score for the neighbor is the number
 			// of steps it took to ge there + direct distance
 			tentativeGScore := gScore[min.Coord] + float32(lib.Distance(min.Coord, neighbor))
 
 			if !coordInSlice(neighbor, openSet) {
-				fmt.Printf("FOUND NEW COORD, %v+, PUSHING TO OPEN\n", neighbor)
 				heap.Push(&openSet, &CoordNode{Coord: neighbor, Value: int(tentativeGScore)})
 			} else if tentativeGScore >= gScore[neighbor] {
 				continue

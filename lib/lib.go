@@ -73,3 +73,19 @@ func Abs(num int) int {
 func Distance(c1 apiEntity.Coord, c2 apiEntity.Coord) int {
 	return Abs(c1.X-c2.X) + Abs(c1.Y-c2.Y)
 }
+
+// DirectionFromCoords - given c1 and c2 return direction between them e.g. up
+func DirectionFromCoords(c1 apiEntity.Coord, c2 apiEntity.Coord) string {
+	vertical := c1.Y - c2.Y
+	horizontal := c1.X - c2.X
+	if vertical == 0 {
+		if horizontal > 0 {
+			return apiEntity.Right
+		}
+		return apiEntity.Left
+	}
+	if vertical < 0 {
+		return apiEntity.Up
+	}
+	return apiEntity.Down
+}
