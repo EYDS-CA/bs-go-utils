@@ -19,7 +19,6 @@ func InitializeBoard(req *api.SnakeRequest) *Manager {
 	manager.GameBoard = CreateBoard(req.Board.Width, req.Board.Height)
 	manager.AddFood(req.Board.Food)
 	manager.AddSnakes(req.Board.Snakes, req.You.ID)
-	manager.GameBoard.Show()
 	manager.OurHead = req.You.Body[0]
 
 	return manager
