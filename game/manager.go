@@ -53,8 +53,10 @@ func (m Manager) AddSnakes(snakePoint []apiEntity.Snake, you string) {
 				m.GameBoard.Insert(Empty(), snakeBody)
 			}
 
-			if snake.ID == you && snake.Body[0] != snake.Body[1] {
-				m.GameBoard.Insert(Obstacle(you), snake.Body[1])
+			if len(snake.Body) > 1 {
+				if snake.ID == you && snake.Body[0] != snake.Body[1] {
+					m.GameBoard.Insert(Obstacle(you), snake.Body[1])
+				}
 			}
 		}
 	}
