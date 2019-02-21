@@ -131,7 +131,7 @@ func (m Manager) FindPath(start apiEntity.Coord, end apiEntity.Coord) (Path, err
 			// If the current closest node is the goal, reconstruct the path
 			if neighbor.X == end.X && neighbor.Y == end.Y {
 				current := min.Coord
-				path := Path{end, neighbor, current}
+				path := Path{end, current}
 				_, exists := cameFrom[current]
 				fmt.Printf("%v+\n", path)
 
