@@ -3,6 +3,7 @@ package game
 import (
 	"container/heap"
 	"errors"
+	"fmt"
 
 	"github.com/FreshworksStudio/bs-go-utils/apiEntity"
 	"github.com/FreshworksStudio/bs-go-utils/lib"
@@ -130,8 +131,9 @@ func (m Manager) FindPath(start apiEntity.Coord, end apiEntity.Coord) (Path, err
 			// If the current closest node is the goal, reconstruct the path
 			if neighbor.X == end.X && neighbor.Y == end.Y {
 				current := min.Coord
-				path := Path{end, current}
+				path := Path{end, neighbor, current}
 				_, exists := cameFrom[current]
+				fmt.Printf("%v+\n", path)
 
 				// Look back through where we came from - rebuild the list
 				for ; exists; _, exists = cameFrom[current] {
