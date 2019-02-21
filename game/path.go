@@ -124,14 +124,13 @@ func (m Manager) FindPath(start apiEntity.Coord, end apiEntity.Coord) (Path, err
 			// We have already explored the neighbor, ignore it
 			_, inClosedSet := closedSet[neighbor]
 			if inClosedSet {
-				// fmt.Printf("ALREADY SEEN NEIGHBOR %v+, SKIPPING\n", neighbor)
 				continue
 			}
 
 			// If the current closest node is the goal, reconstruct the path
 			if neighbor.X == end.X && neighbor.Y == end.Y {
 				current := min.Coord
-				path := Path{end, neighbor, current}
+				path := Path{end, current}
 				_, exists := cameFrom[current]
 
 				// Look back through where we came from - rebuild the list
