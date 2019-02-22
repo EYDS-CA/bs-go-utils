@@ -74,6 +74,15 @@ func Distance(c1 apiEntity.Coord, c2 apiEntity.Coord) int {
 	return Abs(c1.X-c2.X) + Abs(c1.Y-c2.Y)
 }
 
+func AreTilesAdjacent(c1 apiEntity.Coord, c2 apiEntity.Coord) bool {
+	if c1.X == c2.X && Abs(c1.Y-c2.Y) == 1 {
+		return true
+	} else if c1.Y == c2.Y && Abs(c1.X-c2.X) == 1 {
+		return true
+	}
+	return false
+}
+
 // DirectionFromCoords - given c1 and c2 return direction between them e.g. up
 func DirectionFromCoords(c1 apiEntity.Coord, c2 apiEntity.Coord) string {
 	vertical := c1.Y - c2.Y
