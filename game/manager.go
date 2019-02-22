@@ -3,6 +3,7 @@ package game
 import (
 	"github.com/FreshworksStudio/bs-go-utils/api"
 	"github.com/FreshworksStudio/bs-go-utils/apiEntity"
+	"github.com/FreshworksStudio/bs-go-utils/lib"
 )
 
 // Manager for the board object
@@ -49,7 +50,7 @@ func (m Manager) AddSnakes(snakePoint []apiEntity.Snake, you string) {
 
 			// If our health is 100, treat our tail as an obstacle
 			// In the case that our head is our tail, ignore
-			if index == len(snake.Body)-1 && index != 0 && snake.ID == you {
+			if index == len(snake.Body)-1 && index != 0 && snake.ID == you && lib.Distance(snake.Body[0], snake.Body[len(snake.Body)-1]) == 1 {
 				m.GameBoard.Insert(Empty(), snakeBody)
 			}
 
