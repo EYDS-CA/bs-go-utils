@@ -50,7 +50,7 @@ func (m Manager) AddSnakes(snakePoint []apiEntity.Snake, you string) {
 
 			// If our health is 100, treat our tail as an obstacle
 			// In the case that our head is our tail, ignore
-			if index == len(snake.Body)-1 && index != 0 && snake.ID == you && lib.AreTilesAdjacent(snake.Body[0], snake.Body[len(snake.Body)-1]) {
+			if index == len(snake.Body)-1 && index != 0 && snake.ID == you && (lib.AreTilesAdjacent(snake.Body[0], snake.Body[len(snake.Body)-1]) && snake.Health == 100) {
 				m.GameBoard.Insert(Empty(), snakeBody)
 			}
 
